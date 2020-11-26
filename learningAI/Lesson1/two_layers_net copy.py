@@ -1,8 +1,3 @@
-#-----------------------------------------------------------------------------------------------
-#学習アルゴリズムの実装
-#２層(3層)ニューラルネットワークのクラス
-# from Lesson1.functions import Affine, ReLu, SoftmaxWithLoss
-
 import numpy as np
 import sys, os
 sys.path.append('/Users/eb604/deep-learning-from-scratch-master')
