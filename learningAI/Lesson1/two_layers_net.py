@@ -7,11 +7,8 @@ import sys, os
 sys.path.append('/Users/eb604/deep-learning-from-scratch-master')
 from dataset.mnist import load_mnist #load_mnist関数の呼び出し
 from common.gradient import numerical_gradient
-from common.functions import *
 from common.layers import *
-from typing import OrderedDict
 from collections import OrderedDict
-import matplotlib.pylab as plt
 #------------------------------------- NNのクラス -----------------------------------------------------
 class TwoLayerNet:
     #-------------- 初期化 ------------------------------------------------------

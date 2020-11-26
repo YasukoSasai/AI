@@ -1,80 +1,78 @@
 #-----------------------------------------------------------------------------------------------
 #学習アルゴリズムの実装
 #２層(3層)ニューラルネットワークのクラス
+import sys, os
+sys.path.append('/Users/eb604/deep-learning-from-scratch-master')
 from common.gradient import numerical_gradient
 from common.functions import sigmoid, sigmoid_grad, softmax
 import numpy as np
-import sys, os
-os.chdir('/Users/eb604/deep-learning-from-scratch-master/ch03')
-sys.path.append(os.pardir)
-
 from dataset.mnist import load_mnist
 import matplotlib.pylab as plt
 
-#バッチ対応した交差エントロピー！間違わないように
+#-------------- 交差エントロピー(バッチ対応) ---------------------
 def cross_entropy_error(y, t): #y=NNの出力、t=教師データ
-  # print("y.ndim", y.ndim)
-  if y.ndim == 1: #yが１次元のとき（データ一つあたりの交差エントロピー誤差を求めるとき）データの形状を整形。
-      t = t.reshape(1, t.size) #バッチデータと次元を合わせる。
-      y = y.reshape(1, y.size)
-      # print(t.shape)
-      # print(y.shape)
-  batch_size = y.shape[0] # バッチサイズはｙの０次元の数。
-  # print("t",t)
-  # print("y",y)
-  # print("batch_size",batch_size)
-  return -np.sum(t * np.log(y)) / batch_size #バッチサイズで割って、一枚あたりの平均交差エントロピー誤差を求める。正解ラベル*
+    # print("y.ndim", y.ndim)
+    if y.ndim == 1: #yが１次元のとき（データ一つあたりの交差エントロピー誤差を求めるとき）データの形状を整形。
+        t = t.reshape(1, t.size) #バッチデータと次元を合わせる。
+        y = y.reshape(1, y.size)
+        # print(t.shape)
+        # print(y.shape)
+    batch_size = y.shape[0] # バッチサイズはｙの０次元の数。
+    # print("t",t)
+    # print("y",y)
+    # print("batch_size",batch_size)
+    return -np.sum(t * np.log(y)) / batch_size #バッチサイズで割って、一枚あたりの平均交差エントロピー誤差を求める。正解ラベル*
 
 #------------------------------------- NNのクラス -----------------------------------------------------
 class TwoLayerNet:
 
-  def __init__(self, input_size, hidden_size, output_size, weight_init_std=0.01): #__init__クラスの初期化メソッド。input_size=784,output_size=10クラス,hiddenは適当な数を設定する
-      #重みの初期化
-      self.params = {} #ディクショナリ変数。それぞれNumpy配列で格納されている。
-      self.params['W1'] = weight_init_std * np.random.randn(input_size, hidden_size) #random.randn = 形状が(input_size*hidden_size)の(0以上1未満の乱数)
-      self.params['b1'] = np.zeros(hidden_size) #形状は(hidden_size)で全て0のバイアス。
-      self.params['W2'] = weight_init_std * np.random.randn(hidden_size, output_size)
-      self.params['b2'] = np.zeros(output_size)
+    def __init__(self, input_size, hidden_size, output_size, weight_init_std=0.01): #__init__クラスの初期化メソッド。input_size=784,output_size=10クラス,hiddenは適当な数を設定する
+        #重みの初期化
+        self.params = {} #ディクショナリ変数。それぞれNumpy配列で格納されている。
+        self.params['W1'] = weight_init_std * np.random.randn(input_size, hidden_size) #random.randn = 形状が(input_size*hidden_size)の(0以上1未満の乱数)
+        self.params['b1'] = np.zeros(hidden_size) #形状は(hidden_size)で全て0のバイアス。
+        self.params['W2'] = weight_init_std * np.random.randn(hidden_size, output_size)
+        self.params['b2'] = np.zeros(output_size)
 
-  #予測
-  def predict(self, x): 
-      W1, W2 = self.params['W1'], self.params['W2'] #それぞれ代入
-      b1, b2 = self.params['b1'], self.params['b2']
+    #予測
+    def predict(self, x): 
+        W1, W2 = self.params['W1'], self.params['W2'] #それぞれ代入
+        b1, b2 = self.params['b1'], self.params['b2']
 
-      a1 = np.dot(x, W1) + b1 #中間層に渡す
-      z1 = sigmoid(a1) #中間層の出力
-      a2 = np.dot(z1, W2) + b2 #出力層に渡す
-      y = softmax(a2) #最終的な出力(出力層の出力)
+        a1 = np.dot(x, W1) + b1 #中間層に渡す
+        z1 = sigmoid(a1) #中間層の出力
+        a2 = np.dot(z1, W2) + b2 #出力層に渡す
+        y = softmax(a2) #最終的な出力(出力層の出力)
 
-      return y
+        return y
 
-  #損失関数
-  def loss(self, x, t): #x入力データ・t教師データ
-      y = self.predict(x) #predictの値をyに代入
+    #損失関数
+    def loss(self, x, t): #x入力データ・t教師データ
+        y = self.predict(x) #predictの値をyに代入
 
-      return cross_entropy_error(y, t) #交差エントロピー誤差
+        return cross_entropy_error(y, t) #交差エントロピー誤差
 
-  def accuracy(self, x, t): #正確率
-      y = self.predict(x) #出力yにxのself.predictの値を代入。
-      y = np.argmax(y, axis=1) #axis=1　1次元を(列)を軸に最大値を抜き出す。
-      t = np.argmax(t, axis=1)
+    def accuracy(self, x, t): #正確率
+        y = self.predict(x) #出力yにxのself.predictの値を代入。
+        y = np.argmax(y, axis=1) #axis=1　1次元を(列)を軸に最大値を抜き出す。
+        t = np.argmax(t, axis=1)
 
-      accuracy = np.sum(y == t) / float(x.shape[0]) #y==tの合計値/入力値の形状の0次元
-      return accuracy
+        accuracy = np.sum(y == t) / float(x.shape[0]) #y==tの合計値/入力値の形状の0次元
+        return accuracy
 
-  #勾配
-  def numerical_gradient(self, x, t): ##ここでなんか時間かかる‥ → [誤差逆伝播法]
-      loss_W = lambda W: self.loss(x, t) #W重みを引数としたloss_W関数。入力と正解データを実引数としたlossの値を返却。数値微分
+    #勾配
+    def numerical_gradient(self, x, t): ##ここでなんか時間かかる‥ → [誤差逆伝播法]
+        loss_W = lambda W: self.loss(x, t) #W重みを引数としたloss_W関数。入力と正解データを実引数としたlossの値を返却。数値微分
 
-      grads = {} #勾配のディクショナリ変数。pramsと同じようにそれぞれの勾配が格納される。
-      grads['W1'] = numerical_gradient(loss_W, self.params['W1']) #loss_Wとself.params['W1']を実引数としたnumerical_gradientの値を代入。
-      grads['b1'] = numerical_gradient(loss_W, self.params['b1'])
-      grads['W2'] = numerical_gradient(loss_W, self.params['W2'])
-      grads['b2'] = numerical_gradient(loss_W, self.params['b2'])
+        grads = {} #勾配のディクショナリ変数。pramsと同じようにそれぞれの勾配が格納される。
+        grads['W1'] = numerical_gradient(loss_W, self.params['W1']) #loss_Wとself.params['W1']を実引数としたnumerical_gradientの値を代入。
+        grads['b1'] = numerical_gradient(loss_W, self.params['b1'])
+        grads['W2'] = numerical_gradient(loss_W, self.params['W2'])
+        grads['b2'] = numerical_gradient(loss_W, self.params['b2'])
 
-      return grads #全てのパラメータを配列に格納し終わったらgradsで返す。
-  #誤差逆伝播法
-  def gradient(self, x, t):
+        return grads #全てのパラメータを配列に格納し終わったらgradsで返す。
+    #誤差逆伝播法
+    def gradient(self, x, t):
         W1, W2 = self.params['W1'], self.params['W2']
         b1, b2 = self.params['b1'], self.params['b2']
         grads = {}
