@@ -1,7 +1,6 @@
 import numpy as np
 import sys, os
 sys.path.append('/Users/eb604/deep-learning-from-scratch-master')
-from numpy.core.numeric import outer
 from dataset.mnist import load_mnist #load_mnist関数の呼び出し
 from common.gradient import numerical_gradient
 from common.layers import *
@@ -130,7 +129,7 @@ grad_backprop = network.gradient(x_batch, t_batch)
 #各重みの絶対誤差の平均を求める
 for key in grad_numerical.keys():
         diff = np.average(np.abs(grad_backprop[key] - grad_numerical[key]))
-        # print(key + ":" + str(diff))
+        print(key + ":" + str(diff))
 
 
 
