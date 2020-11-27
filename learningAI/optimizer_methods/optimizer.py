@@ -1,13 +1,13 @@
 import numpy as np
 
-class SGD:
+class SGD:#確率的勾配降下（+バッチ化→ミニバッチSGD）
     def __init__(self, lr=0.01):
         self.lr = lr
-    
+    #それぞれのパラメータを更新
     def update(self, params, grads):
         for key in params.keys():
             params[key] -= self.lr * grads[key]
-            
+
 class Momentum:
     def __init__(self, lr = 0.01, momentum = 0.9):
         self.lr = lr
@@ -15,14 +15,23 @@ class Momentum:
         self.v = None
     
     def update(self, params, grads):
+        #
         if self.v is None:
             self.v = {}
+            #paramsのkeyとvalueを引数として以下を繰り返す
             for key, val in params.items():
+                #パラメータと同じ構造のデータをディクショナリ変数として保持
                 self.v[key] = np.zeros_like(val)
+                # print("self.v['b1']", self.v)
 
         for key in params.keys():
+            #0.9*前回のパラメータの更新量(減衰させる) - 学習率*パラメータの勾配 → 各パラメータ(key)の速さ
+            # 前回パラメータを更新した方向の速度を90％もたせながら今回計算した勾配を反映させる
             self.v[key] = self.momentum*self.v[key] - self.lr*grads[key]
+            #各パラメータに速さを足す
             params[key] += self.v[key]
+            # print("--------------------self.v-----------------------------", self.v)
+            # print("^^^^^^^^^^^^^^^^^^^^^^^params^^^^^^^^^^^^^^^^^^^^^^^^^", params)
 
 class AdaGrad:
     #初期設定
@@ -39,15 +48,17 @@ class AdaGrad:
         #paramsのkeyごとに更新(重みやバイアス)
         for key in params.keys(): 
             self.h[key] += grads[key] * grads[key]
+            #勾配の二乗のnp.sqrtの逆数をかけることで学習係数を調整
+            #大きく更新されたパラメータの要素は学習係数が小さくなる
             params[key] -= self.lr * grads[key] / (np.sqrt(self.h[key]) + 1e-7) 
 
-class Adam:
+class Adam: #MomentumとAdaGradの融合
 
     """Adam (http://arxiv.org/abs/1412.6980v8)"""
 
     def __init__(self, lr=0.001, beta1=0.9, beta2=0.999):
         self.lr = lr
-        self.beta1 = beta1
+        self.beta1 = beta1 #２つのモメンタムを用意する
         self.beta2 = beta2
         self.iter = 0
         self.m = None

@@ -55,7 +55,7 @@ for key in optimizers:
     # plot 
     plt.subplot(2, 2, idx)
     idx += 1
-    plt.plot(x_history, y_history, 'o-', color="red")
+    plt.plot(x_history, y_history, 'o-', markersize=3, color="red")
     plt.contour(X, Y, Z)
     plt.ylim(-10, 10)
     plt.xlim(-10, 10)
@@ -66,4 +66,4 @@ for key in optimizers:
     plt.xlabel("x")
     plt.ylabel("y")
     
-plt.show()
+# plt.show()

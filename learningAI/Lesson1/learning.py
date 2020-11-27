@@ -38,12 +38,12 @@ for i in range(iters_num): #10000回繰り返す
         # print("[b1]", network.params['b1'][0]) #4回ごとに更新されていた
 
     if i % iter_per_epoch == 0: #i / 600の余りが0ならばlistに追加(1エポックごと。16回)
-      
-      train_acc = network.accuracy(x_train, t_train)
-      test_acc = network.accuracy(x_test, t_test)
-      train_acc_list.append(train_acc)
-      test_acc_list.append(test_acc)
-      # print("train_acc, test_acc", train_acc, test_acc)
+    
+        train_acc = network.accuracy(x_train, t_train)
+        test_acc = network.accuracy(x_test, t_test)
+        train_acc_list.append(train_acc)
+        test_acc_list.append(test_acc)
+        # print("train_acc, test_acc", train_acc, test_acc)
 
 #--------------- 誤差の推移 ------------------------------
 # print("train_loss_list", train_loss_list)
