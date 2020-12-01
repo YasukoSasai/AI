@@ -1,5 +1,5 @@
 import numpy as np
-import sys, os
+import sys
 sys.path.append('/Users/eb604/deep-learning-from-scratch-master')
 from dataset.mnist import load_mnist #load_mnist関数の呼び出し
 from common.gradient import numerical_gradient
@@ -7,7 +7,6 @@ from common.layers import *
 from collections import OrderedDict
 #------------- 誤差逆伝播に対応したNNの実装 ------------------
 class TwoLayerNet:
-    #-------------- 初期化 ------------------------------------------------------
     def __init__(self, input_size, hidden_size, output_size, weight_init_std=0.01): 
         #__init__クラスの初期化メソッド。input_size=784,output_size=10クラス,hiddenは適当な数を設定
         self.params = {} #ディクショナリ変数。それぞれNumpy配列で格納。
@@ -85,52 +84,5 @@ class TwoLayerNet:
         grads['b2'] = self.layers['Affine2'].db
 
         return grads
-#----------------------- その他 -----------------------------------------------------------------
-
-#------- 学習による誤差推移 ------------
-# print("train_loss_list", train_loss_list)
-# plt.plot(train_loss_list)
-# plt.xlabel("iteration")
-# plt.ylabel("loss")
-# plt.show() #しかしここで得られた損失関数はミニバッチに対する損失関数(100枚)
-
-#--------------- 精度の推移を表示してみた ---------------
-# markers = {'train': 'o', 'test': 's'}
-# x = np.arange(len(train_acc_list))
-# plt.plot(x, train_acc_list, label='train acc')
-# plt.plot(x, test_acc_list, label='test acc', linestyle='--')
-# plt.xlabel("epochs")
-# plt.ylabel("accuracy")
-# plt.ylim(0, 1.0)
-# plt.legend(loc='lower right')
-# plt.show()
-
-#---------------- 誤差逆伝播法の勾配確認 ----------------------
-#データを読み込んで
-(x_train, t_train), (x_test, t_test) = load_mnist(normalize = True, one_hot_label = True)
-#TwoLayersNetのインスタンス生成
-network = TwoLayerNet(input_size=784, hidden_size=50, output_size =10)
-
-#0~3番目までのデータを格納
-x_batch = x_train[:3] 
-t_batch = t_train[:3]
-# print(x_train.shape) #60000枚＊784ピクセル
-# print(x_train[0].shape) #784ピクセル
-# print(x_train[0]) #784ピクセル
-# print(t_train.shape) #60000枚＊10
-# print(t_train[0].shape) #10個の正解データ
-# print(t_train[0]) #10個の正解データ
-
-#勾配
-grad_numerical = network.numerical_gradient(x_batch, t_batch)
-#誤差逆伝播
-grad_backprop = network.gradient(x_batch, t_batch)
-
-#各重みの絶対誤差の平均を求める
-for key in grad_numerical.keys():
-        diff = np.average(np.abs(grad_backprop[key] - grad_numerical[key]))
-        print(key + ":" + str(diff))
-
-
 
 
