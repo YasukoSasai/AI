@@ -69,6 +69,6 @@ for i, a in activations.items():
     # plt.xlim(0.1, 1)
     # plt.ylim(0, 7000)
     plt.hist(a.flatten(), 30, range=(0,1))
-# plt.show()
+plt.show()
 
 

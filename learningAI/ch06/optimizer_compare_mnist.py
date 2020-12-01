@@ -1,5 +1,4 @@
-# coding: utf-8
-import os
+# =============== 最適化アルゴリズムの比較 ============(6.1.8)
 import sys
 sys.path.append('/Users/eb604/deep-learning-from-scratch-master')
 import matplotlib.pyplot as plt

@@ -1,3 +1,4 @@
+# ============ 最適化アルゴリズムの比較(大域的最適解までの効率) ==========(6.1.7)
 import sys, os
 sys.path.append(os.pardir)  # 親ディレクトリのファイルをインポートするための設定
 import numpy as np
@@ -66,4 +67,4 @@ for key in optimizers:
     plt.xlabel("x")
     plt.ylabel("y")
     
-# plt.show()
+plt.show()

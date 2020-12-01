@@ -1,3 +1,4 @@
+#========== Overfit Decay 過学習 =========(6.4.1)
 import sys
 sys.path.append('/Users/eb604/deep-learning-from-scratch-master')
 import numpy as np
@@ -16,7 +17,7 @@ t_train = t_train[:300]
 weight_decay_lambda = 0.1
 # ====================================================
 
-network = MultiLayerNet(input_size=784, hidden_size_list=[100, 100, 100, 100, 100, 100, 100], output_size = 10, weight_decay_lambda=weight_decay_lambda) #層の数は過学習に影響するのかな
+network = MultiLayerNet(input_size=784, hidden_size_list=[100, 100, 100, 100, 100, 100, 100], output_size = 10, weight_decay_lambda=weight_decay_lambda) #なぜ層の数を増やした？？？？？？
 optimizer = SGD(lr=0.01)
 
 max_epochs = 201 #エポックの制限

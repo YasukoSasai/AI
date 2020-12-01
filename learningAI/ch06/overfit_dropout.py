@@ -1,4 +1,5 @@
-import os
+#========= Dropoutによる過学習抑制 =========(6.4.3)
+
 import sys
 sys.path.append('/Users/eb604/deep-learning-from-scratch-master')
 import numpy as np
@@ -7,45 +8,25 @@ from dataset.mnist import load_mnist
 from common.multi_layer_net_extend import MultiLayerNetExtend
 from common.trainer import Trainer
 
-(x_train, t_train), (x_test, t_test) = load_mnist(normalize = True)
+(x_train, t_train), (x_test, t_test) = load_mnist(normalize=True)
 
-#過学習再現のためデータを削減
+# 過学習を再現するために、学習データを削減
 x_train = x_train[:300]
 t_train = t_train[:300]
 
-#Dropoutの有無、割合の設定
-use_dropout = False #DropoutなしのときはFalse
+# Dropuoutの有無、割り合いの設定 ========================
+use_dropout = True  # Dropoutなしのときの場合はFalseに
 dropout_ratio = 0.15
+# ====================================================
 
-#networkインスタンス生成
-network = MultiLayerNetExtend(input_size = 784, hidden_size_list = [100, 100, 100, 100, 100, 100], 
-                              output_size = 10, use_dropout=use_dropout, dropout_ration = dropout_ratio)
-#NNの訓練を行うクラスのインスタンス生成
-trainer = Trainer(network, x_train, t_train, x_test, t_test, epochs=301, 
-                  mini_batch_size = 100, optimizer = 'sgd', optimizer_param = {'lr':0.01}, 
-                  verbose = True)
-#Trainerのtrainを実行
+network = MultiLayerNetExtend(input_size=784, hidden_size_list=[100, 100, 100, 100, 100, 100],
+                              output_size=10, use_dropout=use_dropout, dropout_ration=dropout_ratio)
+trainer = Trainer(network, x_train, t_train, x_test, t_test,
+                  epochs=301, mini_batch_size=100,
+                  optimizer='sgd', optimizer_param={'lr': 0.01}, verbose=True)
 trainer.train()
-#trainerのそれぞれリストを代入
+
 train_acc_list, test_acc_list = trainer.train_acc_list, trainer.test_acc_list
-
-# class Dropout:
-#     def __init__(self, dropout_ratio = 0.5):
-#         self.dropout_ratio = dropout_ratio
-#         self.mask = None
-    
-#     def forward(self, x, train_flg = True):
-#       if train_flg:
-#           #xと同じ形状のランダムなデータの配列を生成し、値がdrop_outよりも大きい場合その要素をTrueとする
-#           self.mask = np.random.rand(*x.shape) > self.dropout_ratio
-          
-#           return x * self.mask 
-#       else:
-#           return x * (1.0 - self.dropout_ratio)
-
-#     def backward(self, dout):
-#         #残ったニューロンと勾配を駆ける
-#         return dout * self.mask
 
 # グラフの描画==========
 markers = {'train': 'o', 'test': 's'}

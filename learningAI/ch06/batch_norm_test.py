@@ -1,4 +1,4 @@
-# coding: utf-8
+# ========== Bacth Normalizetion ========(6.3.2)
 import sys
 sys.path.append('/Users/eb604/deep-learning-from-scratch-master')
 import numpy as np
