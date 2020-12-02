@@ -1,7 +1,7 @@
 #==========　ソフトマックス関数　=========(3.５.３)
 import numpy as np
 import sys, os
-sys.path.append('/Users/eb604/deep-learning-from-scratch-master')
+sys.path.append('../../../deep-learning-from-scratch')
 
 # a = np.array([0.3, 2.9, 4.0])
 # exp_a = np.exp(a) #指数関数

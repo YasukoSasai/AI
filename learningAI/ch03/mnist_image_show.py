@@ -1,7 +1,7 @@
 #========= どのように画像表示するか ==========(3,6,1)
 #MNIST
 import sys, os
-sys.path.append('/Users/eb604/deep-learning-from-scratch-master')
+sys.path.append('../../../deep-learning-from-scratch')
 from dataset.mnist import load_mnist #load_mnist関数の呼び出し
 import numpy as np
 

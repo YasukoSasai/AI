@@ -1,6 +1,6 @@
 # =============== 最適化アルゴリズムの比較 ============(6.1.8)
 import sys
-sys.path.append('/Users/eb604/deep-learning-from-scratch-master')
+sys.path.append('../../../deep-learning-from-scratch')
 import matplotlib.pyplot as plt
 from dataset.mnist import load_mnist
 from common.util import smooth_curve

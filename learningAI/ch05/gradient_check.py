@@ -1,5 +1,5 @@
 import sys
-sys.path.append('/Users/eb604/deep-learning-from-scratch-master')
+sys.path.append('../../../deep-learning-from-scratch')
 import numpy as np
 from dataset.mnist import load_mnist
 from two_layers_net import TwoLayerNet
