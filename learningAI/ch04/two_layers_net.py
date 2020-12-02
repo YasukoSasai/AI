@@ -1,5 +1,5 @@
 import sys
-sys.path.append('/Users/eb604/deep-learning-from-scratch-master')
+sys.path.append('../../../deep-learning-from-scratch')
 from common.functions import *
 from common.gradient import numerical_gradient
 import numpy as np

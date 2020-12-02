@@ -1,7 +1,7 @@
 #========= (誤差逆伝播を使った)学習=============(5.7.4)
 #２層(3層)ニューラルネットワークのクラス
 import sys
-sys.path.append('/Users/eb604/deep-learning-from-scratch-master')
+sys.path.append('../../../deep-learning-from-scratch')
 import numpy as np
 import matplotlib.pyplot as plt
 from dataset.mnist import load_mnist
