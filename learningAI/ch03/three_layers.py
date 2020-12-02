@@ -1,4 +1,4 @@
-#=========== 三層nnの実装 =============(3.4)
+#=========== 三層nnの実装 =============(3.4.3)
 def AND (x1, x2):
   w1, w2, theta = 0.5, 0.5, 0.7
   tmp = x1*w1 + x2*w2
@@ -46,6 +46,7 @@ import matplotlib.pylab as plt
 def step_function(x):
   return np.array(x > 0, dtype=np.int)
 
+#２クラス分類なのでsigmoid関数
 def sigmoid(x):
   return 1/(1 + np.exp(-x))
 

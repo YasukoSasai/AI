@@ -8,15 +8,15 @@ import numpy as np
 (x_train, t_train), (x_test, t_test) = \
   load_mnist(flatten=True, normalize=False)
 """
-  flatten:入力画像を一次元にするかどうか、
+  flatten:入力画像を一次元にするかどうか、TrueなのでNumpy配列に一次元（一列）で格納。→なので後ほど(28,28)に再変形。
   normalize:入力画像を０〜１の値に正規化するかどうか
   （one_hot_label:ラベルをone_hot表現で格納するかどうか。one_hot表現＝正解ラベル１，それ以外０）
 """
 #データの形状
-# print(x_train.shape) #訓練データの入力データ
-# print(t_train.shape) #訓練データの正解データ
-# print(x_test.shape) #テストデータの入力データ
-# print(t_test.shape) #テストデータの正解データ
+print("x_train.shape", x_train.shape) #訓練データの入力データ
+print("t_train.shape", x_train.shape) #訓練データの正解データ
+print("x_test.shape", x_test.shape) #テストデータの入力データ
+print("t_test.shape", t_test.shape) #テストデータの正解データ
 
 #MNIST画像を表示
 from PIL import Image #画像表示にはPILモジュールを使う。
@@ -30,16 +30,11 @@ def img_show(img):
   # print("-------- PIL型 ---------")
   # print(pil_img)
   pil_img.show()
-
-(x_train, t_strain), (x_test, t_test) = \
-  load_mnist(flatten=True, normalize=False) 
-  #読み込みしたload_mnist関数によってMNISTデータセットの読み込み。Flatten=TrueなのでNumpy配列に一次元（一列）で格納。→なので後ほど(28,28)に再変形。
-
 #--------------------入力する訓練データ-------------------------
-img = x_train[3]
+img = x_train[9999]
 # print("img.shape", img.shape) #784
 #------------------- 正解は？----------------------------
-label = t_train[3]
+label = t_train[9999]
 # print("正解", label) #正解のデータ 5
 #-------------------変形してimg.show()に入れて実行 --------------------
 img = img.reshape(28, 28)

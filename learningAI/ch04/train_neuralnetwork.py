@@ -22,6 +22,10 @@ train_loss_list = [] #学習ごとの損失関数を格納するためのリス�
 train_acc_list = [] #学習における正確率
 test_acc_list = [] #テストにおける正確率
 
+w_update_list_0 = []
+w_update_list_4 = []
+w_update_list_9 = []
+
 iter_per_epoch = max(train_size / batch_size, 1) #1エポックあたりの繰り返し数　エポック=訓練データをすべて使い切った回数。60000/100枚 回勾配を行った = １エポック学習を行った。
 
 for i in range (iters_num): #10000回繰り返し
@@ -38,7 +42,19 @@ for i in range (iters_num): #10000回繰り返し
 
     #パラメータ更新
     for key in ('W1', 'b1', 'W2', 'b2'):
-       network.params[key] -= learning_rate * grad[key]
+        network.params[key] -= learning_rate * grad[key]
+        # print("======", network.params['W1'])
+        weight_per_data = list(network.params['b2'])
+        # print("------",weight_per_data[0])
+        weight_per_neuron = list(weight_per_data)
+        # print("******", weight_per_data[0])
+        weight_first_0 = weight_per_neuron[0]
+        weight_first_4 = weight_per_neuron[4]
+        weight_first_9 = weight_per_neuron[9]
+        if key == 'b2':
+            w_update_list_0.append(weight_first_0)
+            w_update_list_4.append(weight_first_4)
+            w_update_list_9.append(weight_first_9)
 
     #学習経過の記録
     loss = network.loss(x_batch, t_batch)
@@ -48,27 +64,48 @@ for i in range (iters_num): #10000回繰り返し
     if i % iter_per_epoch == 0:
         train_acc = network.accuracy(x_train, t_train)
         test_acc = network.accuracy(x_test, t_test)
+        
         train_acc_list.append(train_acc)
         test_acc_list.append(test_acc)
         # print("train acc, test acc | " + str(train_acc) + ", " + str(test_acc))
 
 # 学習による誤差推移
 # print("train_loss_list", train_loss_list)
-plt.plot(train_loss_list)
-plt.xlabel("iteration")
-plt.ylabel("loss")
-plt.show() #しかしここで得られた損失関数はミニバッチに対する損失関数(100枚)
+# plt.plot(train_loss_list)
+# plt.xlabel("iteration")
+# plt.ylabel("loss")
+# plt.show() #しかしここで得られた損失関数はミニバッチに対する損失関数(100枚)
+
+weight_per_data = list(network.params['W1'])
+weight_per_neuron = list(weight_per_data[0])
+weight_first = weight_per_neuron[0]
+
+# print("['W1'].shape",network.params['W1'].shape)
+# print("weight_per_data[0]のサイズ",weight_per_data[0].size)
+# print("weight_per_neuron[0]のサイズ",weight_per_neuron[0].size)
+# print("weight_first",weight_first)
+
+
+plt.scatter(w_update_list_0, train_loss_list, label='train_loss_list')
+plt.scatter(w_update_list_4, train_loss_list, label='train_loss_list')
+plt.scatter(w_update_list_9, train_loss_list, label='train_loss_list')
+plt.show()
+
+
+
+
+
 
 # 訓練データとテストデータで認識精度をグラフ化(汎化性能を見るため) 
-markers = {'train': 'o', 'test': 's'}
-x = np.arange(len(train_acc_list))
-plt.plot(x, train_acc_list, label='train acc')
-plt.plot(x, test_acc_list, label='test acc', linestyle='--')
-plt.xlabel("epochs")
-plt.ylabel("accuracy")
-plt.ylim(0, 1.0)
-plt.legend(loc='lower right')
-plt.show()
+# markers = {'train': 'o', 'test': 's'}
+# x = np.arange(len(train_acc_list))
+# plt.plot(x, train_acc_list, label='train acc')
+# plt.plot(x, test_acc_list, label='test acc', linestyle='--')
+# plt.xlabel("epochs")
+# plt.ylabel("accuracy")
+# plt.ylim(0, 1.0)
+# plt.legend(loc='lower right')
+# plt.show()
 
 
 
