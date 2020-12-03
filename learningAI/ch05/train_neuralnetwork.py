@@ -104,6 +104,3 @@ plt.show()
 # plt.plot(w_update_list_4, train_loss_list, '-', label='train_loss_list')
 # plt.plot(w_update_list_9, train_loss_list, '-', label='train_loss_list')
 # plt.show()
-
-
-
