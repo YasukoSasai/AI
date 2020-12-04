@@ -7,6 +7,8 @@ import matplotlib.pyplot as plt
 from dataset.mnist import load_mnist
 from two_layers_net import TwoLayerNet
 
+
+
 # *********** ミニバッチ学習の実装 ***************
 (x_train, t_train), (x_test, t_test) = load_mnist(normalize=True, one_hot_label=True)
 
@@ -37,9 +39,9 @@ for i in range (iters_num): #10000回繰り返し
 
     #====== 勾配計算 =====
     #数値微分
-    grad = network.numerical_gradient(x_batch, t_batch)
+    # grad = network.numerical_gradient(x_batch, t_batch)
     #誤差逆伝播法　高速！ 
-    # grad = network.gradient(x_batch, t_batch) 
+    grad = network.gradient(x_batch, t_batch) 
 
     #====== パラメータ更新 ======
     for key in ('W1', 'b1', 'W2', 'b2'):
@@ -69,26 +71,38 @@ for i in range (iters_num): #10000回繰り返し
         
         train_acc_list.append(train_acc)
         test_acc_list.append(test_acc)
-        # print("train acc, test acc | " + str(train_acc) + ", " + str(test_acc))
+        print("train acc, test acc | " + str(train_acc) + ", " + str(test_acc))
+        if i == 600:
+          print(x_test, t_test)
+          # print("テストデータ", network.predict(x_test, t_test))
 
 # ************* グラフによる確認 ******************
 # ========== 学習による誤差推移 ==============
 # print("train_loss_list", train_loss_list)
-plt.plot(train_loss_list)
-plt.xlabel("iteration")
-plt.ylabel("loss")
-plt.show() #しかしここで得られた損失関数はミニバッチに対する損失関数(100枚)
+# plt.plot(train_loss_list)
+# plt.xlabel("iteration")
+# plt.ylabel("loss")
+# plt.show() #しかしここで得られた損失関数はミニバッチに対する損失関数(100枚)
 
 # ========== 訓練データとテストデータで認識精度をグラフ化(汎化性能を見るため) ================
-markers = {'train': 'o', 'test': 's'}
-x = np.arange(len(train_acc_list))
-plt.plot(x, train_acc_list, label='train acc')
-plt.plot(x, test_acc_list, label='test acc', linestyle='--')
-plt.xlabel("epochs")
-plt.ylabel("accuracy")
-plt.ylim(0, 1.0)
-plt.legend(loc='lower right')
-plt.show()
+# markers = {'train': 'o', 'test': 's'}
+# x = np.arange(len(train_acc_list))
+# plt.plot(x, train_acc_list, label='train acc')
+# plt.plot(x, test_acc_list, label='test acc', linestyle='--')
+# plt.xlabel("epochs")
+# plt.ylabel("accuracy")
+# plt.ylim(0, 1.0)
+# plt.legend(loc='lower right')
+# plt.show()
+
+#========== テストデータ推測の結果表示 =========
+# x_sample = x_test[9] 
+# t_sample = t_test[9]
+# test_loss = network.loss(x_sample, t_sample)
+# print(test_loss)
+
+
+
 
 
 #========== 損失関数とパラメータのグラフ ================

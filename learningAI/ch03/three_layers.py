@@ -41,8 +41,6 @@ def step_function(x):
   else:
     return 0
 
-import matplotlib.pylab as plt
-
 def step_function(x):
   return np.array(x > 0, dtype=np.int)
 
@@ -54,19 +52,17 @@ def relu(x):
   return np.maximum(0, x)
 
 print("====== nnの実装 ======")
-print("====== 入力層から出力層への伝達(シグモイド関数) ======")
-X = np.array([1.0, 0.5]) #2個の出力
+print("====== 入力層から中間層への伝達(シグモイド関数) ======")
+X = np.array([1.0, 0.5]) #2個の入力
 W1 = np.array([[0.1, 0.3, 0.5], [0.2, 0.4, 0.6]]) #３つの中間層に対する重み
 B1 = np.array([0.1, 0.2, 0.3])
 # print(W1.shape)
 # print(X.shape)
 # print(B1.shape)
-
 A1 = np.dot(X, W1) + B1
 print("A1")
 print(A1)
 # print(A1.shape)
-
 Z1 = sigmoid(A1) #中間層でシグモイド関数
 print("Z1")
 print(Z1) #中間層出力
@@ -76,7 +72,6 @@ B2 = np.array([0.1, 0.2])
 # print(Z1.shape)
 # print(W2.shape)
 # print(B2.shape)
-
 A2 = np.dot(Z1, W2) + B2
 Z2 = sigmoid(A2)
 print("A2")

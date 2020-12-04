@@ -37,9 +37,9 @@ for i in range (iters_num): #10000回繰り返し
 
     #====== 勾配計算 =====
     #数値微分
-    grad = network.numerical_gradient(x_batch, t_batch)
+    # grad = network.numerical_gradient(x_batch, t_batch)
     #誤差逆伝播法　高速！ 
-    # grad = network.gradient(x_batch, t_batch) 
+    grad = network.gradient(x_batch, t_batch) 
 
     #====== パラメータ更新 ======
     for key in ('W1', 'b1', 'W2', 'b2'):

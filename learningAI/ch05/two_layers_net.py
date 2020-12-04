@@ -6,6 +6,7 @@ from common.gradient import numerical_gradient
 from common.layers import *
 from collections import OrderedDict
 #------------- 誤差逆伝播に対応したNNの実装 ------------------
+#計算が早くなる。
 class TwoLayerNet:
     def __init__(self, input_size, hidden_size, output_size, weight_init_std=0.01): 
         #__init__クラスの初期化メソッド。input_size=784,output_size=10クラス,hiddenは適当な数を設定
