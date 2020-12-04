@@ -71,10 +71,10 @@ for i in range (iters_num): #10000回繰り返し
         
         train_acc_list.append(train_acc)
         test_acc_list.append(test_acc)
-        print("train acc, test acc | " + str(train_acc) + ", " + str(test_acc))
-        if i == 600:
-          print(x_test, t_test)
-          # print("テストデータ", network.predict(x_test, t_test))
+        # print("train acc, tesst acc | " + str(train_acc) + ", " + str(test_acc))
+
+
+    
 
 # ************* グラフによる確認 ******************
 # ========== 学習による誤差推移 ==============
