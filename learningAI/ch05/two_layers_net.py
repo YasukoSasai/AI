@@ -1,6 +1,6 @@
 import numpy as np
 import sys
-sys.path.append('../../../deep-learning-from-scratch')
+sys.path.append('../')
 from dataset.mnist import load_mnist #load_mnist関数の呼び出し
 from common.gradient import numerical_gradient
 from common.layers import *
