@@ -1,10 +1,10 @@
 # ============ 最適化アルゴリズムの比較(大域的最適解までの効率) ==========(6.1.7)
 import sys, os
-sys.path.append('../../../deep-learning-from-scratch')
+sys.path.append('../')
 import numpy as np
 import matplotlib.pyplot as plt
 from collections import OrderedDict
-from optimizer import *
+from common.optimizer import *
 
 
 def f(x, y):

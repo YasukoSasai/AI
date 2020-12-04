@@ -1,6 +1,6 @@
 # coding: utf-8
 import sys
-sys.path.append('../../../deep-learning-from-scratch')
+sys.path.append('../')
 import numpy as np
 import matplotlib.pyplot as plt
 from dataset.mnist import load_mnist

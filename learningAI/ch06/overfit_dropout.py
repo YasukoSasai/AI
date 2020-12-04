@@ -1,7 +1,7 @@
 #========= Dropoutによる過学習抑制 =========(6.4.3)
 
 import sys
-sys.path.append('../../../deep-learning-from-scratch')
+sys.path.append('../')
 import numpy as np
 import matplotlib.pyplot as plt
 from dataset.mnist import load_mnist

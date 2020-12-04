@@ -1,6 +1,6 @@
 # =============== mnistに対して推論処理 ====================
 import sys, os
-sys.path.append('../../../deep-learning-from-scratch')
+sys.path.append('../')
 import numpy as np
 import pickle
 from dataset.mnist import load_mnist

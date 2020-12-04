@@ -1,11 +1,11 @@
 # =============== 最適化アルゴリズムの比較 ============(6.1.8)
 import sys
-sys.path.append('../../../deep-learning-from-scratch')
+sys.path.append('../')
 import matplotlib.pyplot as plt
 from dataset.mnist import load_mnist
 from common.util import smooth_curve
 from common.multi_layer_net import MultiLayerNet
-from optimizer import *
+from common.optimizer import *
 
 
 # 0:MNISTデータの読み込み==========
