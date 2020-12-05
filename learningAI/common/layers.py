@@ -6,12 +6,12 @@ from common.util import im2col, col2im
 
 class Relu:
     def __init__(self):
-        self.mask = None
+        self.mask = None #順伝播の結果をmaskとして保持
 
     def forward(self, x):
-        self.mask = (x <= 0)
-        out = x.copy()
-        out[self.mask] = 0
+        self.mask = (x <= 0) 
+        out = x.copy() #xをコピーしてoutとする
+        out[self.mask] = 0 #
 
         return out
 
@@ -58,8 +58,8 @@ class Affine:
 
         return out
 
-    def backward(self, dout):
-        dx = np.dot(dout, self.W.T)
+    def backward(self, dout): #Affine2のときはlastlayerのdout,Affine1のときはReluのdout
+        dx = np.dot(dout, self.W.T) #
         self.dW = np.dot(self.x.T, dout)
         self.db = np.sum(dout, axis=0)
         
@@ -81,10 +81,10 @@ class SoftmaxWithLoss:
         return self.loss
 
     def backward(self, dout=1):
-        batch_size = self.t.shape[0]
+        batch_size = self.t.shape[0] #100
         if self.t.size == self.y.size: # 教師データがone-hot-vectorの場合
             dx = (self.y - self.t) / batch_size
-        else:
+        else: #バッチ全体の誤差を計算しているので。→交差エントロピーも
             dx = self.y.copy()
             dx[np.arange(batch_size), self.t] -= 1
             dx = dx / batch_size

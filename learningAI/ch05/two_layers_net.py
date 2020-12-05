@@ -47,7 +47,7 @@ class TwoLayerNet:
     #正確率
     def accuracy(self, x, t): 
         y = self.predict(x) #出力yにxのself.predictの値を代入。
-        y = np.argmax(y, axis=1) #axis=1　1次元を(列)を軸に最大値を抜き出す。
+        y = np.argmax(y, axis=1) #axis=1　1次元を(列)を軸に最大値のインデックスを抜き出す。
         if t.ndim != 1 : t = np.argmax(t, axis = 1)
 
         accuracy = np.sum(y == t) / float(x.shape[0]) #y==tの合計値/入力値の形状の0次元

@@ -25,16 +25,16 @@ train_acc_list = [] #学習における正確率
 test_acc_list = [] #テストにおける正確率
 
 #====== 重み・パラメータグラフ表示するとき ======
-# w_update_list_0 = []
-# w_update_list_4 = []
-# w_update_list_9 = []
+w_update_list_0 = []
+w_update_list_4 = []
+w_update_list_9 = []
 
 iter_per_epoch = max(train_size / batch_size, 1) #1エポックあたりの繰り返し数　エポック=訓練データをすべて使い切った回数。60000/100枚 回勾配を行った = １エポック学習を行った。
 
 for i in range (iters_num): #10000回繰り返し
     #===== ミニバッチの取得 =====
-    batch_mask = np.random.choice(train_size, batch_size) #train_size枚の中からbatch_size枚ランダムで配列で取り出す
-    x_batch = x_train[batch_mask] #bacth_maskのx_trainをx_batchとする
+    batch_mask = np.random.choice(train_size, batch_size) #train_sizeの中からbatch_sizeランダムでインデックスを配列で取り出す。
+    x_batch = x_train[batch_mask] #bacth_mask番目のx_train(配列)をx_batchに代入。
     t_batch = t_train[batch_mask] #同様
 
     #====== 勾配計算 =====
@@ -110,11 +110,11 @@ for i in range (iters_num): #10000回繰り返し
 # print("weight_per_data[0]のサイズ",weight_per_data[0].size)
 # print("weight_per_neuron[0]のサイズ",weight_per_neuron[0].size)
 # print("weight_first",weight_first)
-# weight_per_data = list(network.params['W1'])
-# weight_per_neuron = list(weight_per_data[0])
-# weight_first = weight_per_neuron[0]
+weight_per_data = list(network.params['W1'])
+weight_per_neuron = list(weight_per_data[0])
+weight_first = weight_per_neuron[0]
 
-# plt.plot(w_update_list_0, train_loss_list, '-', label='train_loss_list')
-# plt.plot(w_update_list_4, train_loss_list, '-', label='train_loss_list')
-# plt.plot(w_update_list_9, train_loss_list, '-', label='train_loss_list')
-# plt.show()
+plt.plot(w_update_list_0, train_loss_list, '-', label='train_loss_list')
+plt.plot(w_update_list_4, train_loss_list, '-', label='train_loss_list')
+plt.plot(w_update_list_9, train_loss_list, '-', label='train_loss_list')
+plt.show()
