@@ -1,4 +1,4 @@
-from common.util import conv_output_size
+
 import sys, os
 sys.path.append('../')  # 親ディレクトリのファイルをインポートするための設定
 import pickle
@@ -6,6 +6,7 @@ import numpy as np
 from collections import OrderedDict
 from common.layers import *
 from common.gradient import numerical_gradient
+from common.util import conv_output_size
 
 class SimpleConvNet: #モデルの内容を初期化
     def __init__(self, input_dim = (1, 28, 28), 
