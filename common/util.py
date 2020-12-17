@@ -38,7 +38,6 @@ def conv_output_size(input_size, filter_size, stride=1, pad=0):
 
 def im2col(input_data, filter_h, filter_w, stride=1, pad=0):
     """
-
     Parameters
     ----------
     input_data : (データ数, チャンネル, 高さ, 幅)の4次元配列からなる入力データ
@@ -51,9 +50,9 @@ def im2col(input_data, filter_h, filter_w, stride=1, pad=0):
     -------
     col : 2次元配列
     """
-    N, C, H, W = input_data.shape
-    out_h = (H + 2*pad - filter_h)//stride + 1
-    out_w = (W + 2*pad - filter_w)//stride + 1
+    N, C, H, W = input_data.shape #入力データの要素をそれぞれ代入。(バッチ数, チャンネル, height, width)
+    out_h = (H + 2*pad - filter_h)//stride + 1 #(H + 2*pad - フィルターのh)÷stride + 1
+    out_w = (W + 2*pad - filter_w)//stride + 1 
 
     img = np.pad(input_data, [(0,0), (0,0), (pad, pad), (pad, pad)], 'constant')
     col = np.zeros((N, C, filter_h, filter_w, out_h, out_w))

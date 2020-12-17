@@ -206,7 +206,8 @@ class BatchNormalization:
 
 class Convolution:
     def __init__(self, W, b, stride=1, pad=0):
-        self.W = W
+        #初期値　重み、バイアス、ストライド、パディング
+        self.W = W #フィルターのこと(重み)
         self.b = b
         self.stride = stride
         self.pad = pad
@@ -223,13 +224,16 @@ class Convolution:
     def forward(self, x):
         FN, C, FH, FW = self.W.shape
         N, C, H, W = x.shape
+        #出力のhとwの計算？
         out_h = 1 + int((H + 2*self.pad - FH) / self.stride)
         out_w = 1 + int((W + 2*self.pad - FW) / self.stride)
 
+        #入力データをim2colでそれぞれ一列に展開(二次元)。フィルターもreshapeで二次元に変換。
         col = im2col(x, FH, FW, self.stride, self.pad)
-        col_W = self.W.reshape(FN, -1).T
-
+        col_W = self.W.reshape(FN, -1).T #(FN, なんとか)になるんでしょうね
+        #最後に上記２つの内積を求め、バイアスを足す。
         out = np.dot(col, col_W) + self.b
+        #出力を整形
         out = out.reshape(N, out_h, out_w, -1).transpose(0, 3, 1, 2)
 
         self.x = x
@@ -237,10 +241,16 @@ class Convolution:
         self.col_W = col_W
 
         return out
+        """
+        230：reshapeの-1は多次元配列の要素数の辻褄が合うように要素数をまとめてくれる。
+        例えば(10, 3, 5, 5)をreshape(10,-1)とすると(10, 75)にしてくれる。
 
-    def backward(self, dout):
-        FN, C, FH, FW = self.W.shape
-        dout = dout.transpose(0,2,3,1).reshape(-1, FN)
+        233：transposeは多次元配列の軸の順番を入れ替える関数。(0次元, 3次元, 1次元, 2次元)の順番
+        """
+
+    def backward(self, dout): #img2colの逆の動きをさせる必要がある(col2img)
+        FN, C, FH, FW = self.W.shape #フィルターのshape
+        dout = dout.transpose(0,2,3,1).reshape(-1, FN) #出力値の微分
 
         self.db = np.sum(dout, axis=0)
         self.dW = np.dot(self.col.T, dout)
@@ -260,18 +270,22 @@ class Pooling:
         self.pad = pad
         
         self.x = None
-        self.arg_max = None
+        self.arg_max = None #つまりは特徴的な部分だけ取り出してるってこと？？？
 
     def forward(self, x):
         N, C, H, W = x.shape
         out_h = int(1 + (H - self.pool_h) / self.stride)
         out_w = int(1 + (W - self.pool_w) / self.stride)
 
+        #二次元変換
         col = im2col(x, self.pool_h, self.pool_w, self.stride, self.pad)
+        #プーリング層の形に変換?
         col = col.reshape(-1, self.pool_h*self.pool_w)
 
-        arg_max = np.argmax(col, axis=1)
+        #一次元を軸に最大値を取得。行ごとに
+        arg_max = np.argmax(col, axis=1) #ここいらないかも p228
         out = np.max(col, axis=1)
+        #出力に適切な形にする
         out = out.reshape(N, out_h, out_w, C).transpose(0, 3, 1, 2)
 
         self.x = x
