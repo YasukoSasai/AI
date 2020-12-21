@@ -1,19 +1,24 @@
 import sys, os
+
+from numpy.core.arrayprint import DatetimeFormat
 sys.path.append('../')  # 親ディレクトリのファイルをインポートするための設定
 import numpy as np
 import matplotlib.pyplot as plt
 from dataset.mnist import load_mnist
 from simple_convnet import SimpleConvNet
 from common.trainer import Trainer
+from datetime import datetime
 
 # データの読み込み
 (x_train, t_train), (x_test, t_test) = load_mnist(flatten=False)
 
 # 処理に時間のかかる場合はデータを削減 
-#x_train, t_train = x_train[:5000], t_train[:5000]
-#x_test, t_test = x_test[:1000], t_test[:1000]
+x_train, t_train = x_train[:5000], t_train[:5000]
+x_test, t_test = x_test[:1000], t_test[:1000]
 
 max_epochs = 20
+
+started_time = datetime.now()
 
 network = SimpleConvNet(input_dim=(1,28,28), 
                         conv_param = {'filter_num': 30, 'filter_size': 5, 'pad': 0, 'stride': 1},
@@ -24,6 +29,10 @@ trainer = Trainer(network, x_train, t_train, x_test, t_test,
                   optimizer='Adam', optimizer_param={'lr': 0.001},
                   evaluate_sample_num_per_epoch=1000)
 trainer.train()
+
+finished_time = datetime.now()
+print(finished_time - started_time)
+
 
 # パラメータの保存
 network.save_params("params.pkl")
