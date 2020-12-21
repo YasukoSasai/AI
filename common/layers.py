@@ -204,7 +204,7 @@ class BatchNormalization:
         return dx
 
 
-class Convolution:
+class Convolution: #numpyでfor文をたくさん使うと時間がかかりすぎるためim2col関数使う。
     def __init__(self, W, b, stride=1, pad=0):
         #初期値　重み、バイアス、ストライド、パディング
         self.W = W #フィルターのこと(重み)
@@ -228,7 +228,7 @@ class Convolution:
         out_h = 1 + int((H + 2*self.pad - FH) / self.stride)
         out_w = 1 + int((W + 2*self.pad - FW) / self.stride)
 
-        #入力データをim2colでそれぞれ一列に展開(二次元)。フィルターもreshapeで二次元に変換。
+        #重みの都合がいいように入力データを一列に展開(二次元)。フィルターもreshapeで二次元に変換。
         col = im2col(x, FH, FW, self.stride, self.pad)
         col_W = self.W.reshape(FN, -1).T #(FN, なんとか)になるんでしょうね
         #最後に上記２つの内積を求め、バイアスを足す。

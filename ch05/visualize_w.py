@@ -1,18 +1,20 @@
-#========= (誤差逆伝播を使った)学習=============(5.7.4)
-#２層ニューラルネットワークのクラス
+#========= 学習=============(5.7.4)
+""" 
+重みの可視化をしてくれます(ファイルとしてダウンロードしてしまうので不要な場合は削除してください)。
+必要に応じてimportするモデルを変更し、層の数を変更してください。
+(発表時は説明しやすいよう中間層を抜いて可視化しました　one_layer_net.py)
+"""
 import sys
 sys.path.append('../')
 import numpy as np
 import matplotlib.pyplot as plt
 from dataset.mnist import load_mnist
-from two_layers_net import TwoLayerNet
+from one_layer import TwoLayerNet
 from PIL import Image #画像表示にはPILモジュールを使う。
 # ================== ミニバッチ学習の実装 ==================
 (x_train, t_train), (x_test, t_test) = load_mnist(normalize=True, one_hot_label=True)
-#=======================================================
-# ================== ディープラーニングのモデルを定義 ==================
+#======= ニューラルネットワークのインスタンス生成 ======
 network = TwoLayerNet(input_size=784, hidden_size=10, output_size=10) #NNのインスタンス生成
-# =======================================================
 #====== ハイパーパラメータ ======
 iters_num = 10000 #勾配によるパラメータ更新回数(iterarion = 繰り返し)
 train_size = x_train.shape[0] #訓練データのサイズはx_trainデータ形状の0次元の数 = 60000枚　x_train.shape = 60000枚 * 784(28*28)ピクセル
@@ -21,9 +23,8 @@ learning_rate = 0.1 #学習率
 train_loss_list = [] #学習ごとの損失関数を格納するためのリスト
 train_acc_list = [] #学習における正確率
 test_acc_list = [] #テストにおける正確率
-#============================
 iter_per_epoch = max(train_size / batch_size, 1) #1エポックあたりの繰り返し数　エポック=訓練データをすべて使い切った回数。60000/100枚 回勾配を行った = １エポック学習を行った。
-# 学習フェーズ
+# =========== 学習フェーズ ============
 print("学習開始")
 #何枚の画像で学習したか(画像のシェイプも)
 #開始時間取得
@@ -38,7 +39,6 @@ for i in range (iters_num): #10000回繰り返し
     #誤差逆伝播法　高速！ 
     grad = network.gradient(x_batch, t_batch)
     #====== パラメータ更新 ======
-    # for key in ('W1', 'b1', 'W2', 'b2'):
     for key in ('W1', 'b1'):
         network.params[key] -= learning_rate * grad[key]
     #====== 学習経過の記録 ========
@@ -78,13 +78,13 @@ i = 0
 #     chrImg = ConvertToImg(x_test[i].reshape(chr_w, chr_h))
 #     canvas.paste(chrImg, (chr_w*x, chr_h))
 #     i = i + 1
-for item in batch_mask:
-    chrImg = ConvertToImg(x_test[item].reshape(chr_w, chr_h))
-    canvas.paste(chrImg, (chr_w*i, chr_h))
-    i = i + 1
-canvas.show()
+# for item in batch_mask:
+#     chrImg = ConvertToImg(x_test[item].reshape(chr_w, chr_h))
+#     canvas.paste(chrImg, (chr_w*i, chr_h))
+#     i = i + 1
+# canvas.show()
 # 表示した画像をJPEGとして保存
-canvas.save('mnist.jpg', 'JPEG', quality=100, optimize=True)
+# canvas.save('mnist.jpg', 'JPEG', quality=100, optimize=True)
 print(network.params['W1'].shape)
 for num in range(10):
   a = []
@@ -93,7 +93,7 @@ for num in range(10):
   #画像の表示
   a = np.reshape(a, (28, 28)) 
   plt.imshow(a)
-  plt.show() #使った画像が小さいときはボケて見えるけど今は気にしないで
+  # plt.show() #使った画像が小さいときはボケて見えるけど今は気にしないで
   plt.gray()
   #画像の保存
-  plt.imsave('w1_'+str(num)+'.jpeg', a) #拡張子を.pngとかに変えてもちゃんと保存してくれる。
+  plt.imsave('w1_'+str(num)+'.jpeg', a) #拡張子を.pngとかに変えてもちゃんと保存してくれる。s
